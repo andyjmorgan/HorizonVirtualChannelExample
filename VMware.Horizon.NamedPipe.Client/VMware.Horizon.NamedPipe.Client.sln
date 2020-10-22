@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.NamedPipe.Client", "VMware.Horizon.NamedPipe.Client.csproj", "{5241A1A9-7210-4F05-9088-36303CB3F6B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.NamedPipe.RDPVCBridgeInterop", "..\Libraries\VMware.Horizon.RDPVCBridge\VMware.Horizon.NamedPipe.RDPVCBridgeInterop.csproj", "{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{03190086-EAB3-4E37-BAD7-20560EEF5B2F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5241A1A9-7210-4F05-9088-36303CB3F6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5241A1A9-7210-4F05-9088-36303CB3F6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5241A1A9-7210-4F05-9088-36303CB3F6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5241A1A9-7210-4F05-9088-36303CB3F6B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A} = {03190086-EAB3-4E37-BAD7-20560EEF5B2F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A096C19D-4888-4DDC-83B5-F626A6815BE7}
+	EndGlobalSection
+EndGlobal
