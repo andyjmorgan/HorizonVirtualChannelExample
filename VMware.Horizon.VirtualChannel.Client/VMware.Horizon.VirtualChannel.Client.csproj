@@ -150,6 +150,7 @@
     <Error Condition="!Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>copy /y $(TargetDir)\* \\nas\lab\horizonvirtualchannels\client\</PostBuildEvent>
+    <PostBuildEvent>copy /y $(TargetDir)\* \\nas\lab\horizonvirtualchannels\client\
+copy $(TargetDir)$(TargetFileName) $(SolutionDir)\Publish\</PostBuildEvent>
   </PropertyGroup>
 </Project>
