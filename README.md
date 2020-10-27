@@ -15,6 +15,8 @@ This example could be easily expanded to do pretty much whatever you like.
 
 Download the binaries from here:
 
+https://github.com/andyjmorgan/HorizonVirtualChannelExample/tree/main/Publish
+
  1. Start the Client on a Windows Device, before launching a virtual session.
  2. Once the client has been started, Launch a VMware Horizon virtual desktop session.
  3. Once inside a VMware Horizon virtual desktop session, launch the agent.
