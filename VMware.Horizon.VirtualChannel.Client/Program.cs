@@ -21,6 +21,7 @@ namespace VMware.Horizon.VirtualChannel.Client
             }
             else
             {
+
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new frmDetails());

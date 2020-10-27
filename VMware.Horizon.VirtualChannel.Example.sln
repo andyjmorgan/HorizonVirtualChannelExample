@@ -3,15 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.Client", "VMware.Horizon.NamedPipe.Client\VMware.Horizon.VirtualChannel.Client.csproj", "{5241A1A9-7210-4F05-9088-36303CB3F6B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.Client", "VMware.Horizon.VirtualChannel.Client\VMware.Horizon.VirtualChannel.Client.csproj", "{5241A1A9-7210-4F05-9088-36303CB3F6B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.RDPVCBridgeInterop", "Libraries\VMware.Horizon.RDPVCBridge\VMware.Horizon.VirtualChannel.RDPVCBridgeInterop.csproj", "{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{03190086-EAB3-4E37-BAD7-20560EEF5B2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.RegistryHelpers", "VMware.Horizon.NamedPipe.RegistryHelpers\VMware.Horizon.VirtualChannel.RegistryHelpers.csproj", "{2D6DAFC7-FEF4-40DB-BA6E-DA25DF71B53C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.RegistryHelpers", "Libraries\VMware.Horizon.VirtualChannel.RegistryHelpers\VMware.Horizon.VirtualChannel.RegistryHelpers.csproj", "{2D6DAFC7-FEF4-40DB-BA6E-DA25DF71B53C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.PipeMessages", "VMware.Horizon.NamedPipe.PipeMessages\VMware.Horizon.VirtualChannel.PipeMessages.csproj", "{80AD77A0-B6D9-4C1B-81DD-8D7757CFD572}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.PipeMessages", "Libraries\VMware.Horizon.VirtualChannel.PipeMessages\VMware.Horizon.VirtualChannel.PipeMessages.csproj", "{80AD77A0-B6D9-4C1B-81DD-8D7757CFD572}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.Agent", "VMware.Horizon.VirtualChannel.Agent\VMware.Horizon.VirtualChannel.Agent.csproj", "{BCD3E9EC-2D47-4793-833A-DAD9629B54B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMware.Horizon.VirtualChannel.AgentAPI", "Libraries\VMware.Horizon.VirtualChannel.AgentAPI\VMware.Horizon.VirtualChannel.AgentAPI.csproj", "{87EB83BD-5095-4B28-A281-AE45E208C6DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +39,14 @@ Global
 		{80AD77A0-B6D9-4C1B-81DD-8D7757CFD572}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80AD77A0-B6D9-4C1B-81DD-8D7757CFD572}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80AD77A0-B6D9-4C1B-81DD-8D7757CFD572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD3E9EC-2D47-4793-833A-DAD9629B54B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD3E9EC-2D47-4793-833A-DAD9629B54B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD3E9EC-2D47-4793-833A-DAD9629B54B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD3E9EC-2D47-4793-833A-DAD9629B54B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87EB83BD-5095-4B28-A281-AE45E208C6DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87EB83BD-5095-4B28-A281-AE45E208C6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87EB83BD-5095-4B28-A281-AE45E208C6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87EB83BD-5095-4B28-A281-AE45E208C6DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +55,7 @@ Global
 		{0C9E1536-A4B1-4B0E-9A2B-EEAC7238FC8A} = {03190086-EAB3-4E37-BAD7-20560EEF5B2F}
 		{2D6DAFC7-FEF4-40DB-BA6E-DA25DF71B53C} = {03190086-EAB3-4E37-BAD7-20560EEF5B2F}
 		{80AD77A0-B6D9-4C1B-81DD-8D7757CFD572} = {03190086-EAB3-4E37-BAD7-20560EEF5B2F}
+		{87EB83BD-5095-4B28-A281-AE45E208C6DD} = {03190086-EAB3-4E37-BAD7-20560EEF5B2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A096C19D-4888-4DDC-83B5-F626A6815BE7}

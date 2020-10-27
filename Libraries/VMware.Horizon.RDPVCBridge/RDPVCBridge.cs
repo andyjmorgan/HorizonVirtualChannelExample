@@ -16,5 +16,10 @@ namespace VMware.Horizon.VirtualChannel.RDPVCBridgeInterop
 
         [DllImport("vdp_rdpvcbridge.dll", SetLastError = true)]
         public static extern bool VDP_VirtualChannelClose(IntPtr channelHandle);
+
+
+        [DllImport("vdp_rdpvcbridge", SetLastError = true)]
+        public static extern bool VDP_IsViewSession(uint sessionId);
+        
     }
 }

@@ -8,25 +8,12 @@ namespace VMware.Horizon.VirtualChannel.PipeMessages
 {
     public class v1
     {
-        public class BatteryStatus
-        {
-            public bool HasBattery { get; set; }
-            public bool Charging { get; set; }
-            public float BatteryLifePercent { get; set; }
-            public BatteryStatus(bool _HasBattery, bool _Charging, float _Percent)
-            {
-                HasBattery = _HasBattery;
-                Charging = _Charging;
-                BatteryLifePercent = _Percent;
-            }
-            public BatteryStatus() { }
-        }
 
-        public class SetVolume
+        public class VolumeStatus
         {
             public bool Muted { get; set; }
             public float VolumeLevel { get; set; }
-            public SetVolume(bool _Muted, float _VolumeLevel)
+            public VolumeStatus(bool _Muted, float _VolumeLevel)
             {
                 Muted = _Muted;
                 VolumeLevel = _VolumeLevel;
@@ -61,9 +48,9 @@ namespace VMware.Horizon.VirtualChannel.PipeMessages
         public enum CommandType
         {
             SetVolume,
-            GetBattery,
             GetSecurity,
-            Probe
+            Probe,
+            GetVolume,
         }
     }
 }

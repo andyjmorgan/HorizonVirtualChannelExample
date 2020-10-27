@@ -17,24 +17,7 @@ namespace VMware.Horizon.VirtualChannel.Client
 {
     public class HorizonMonitor
     {
-        private BatteryStatus GetBatteryStatus()
-        {
-            System.Windows.Forms.BatteryChargeStatus bcs = System.Windows.Forms.SystemInformation.PowerStatus.BatteryChargeStatus;
-            if (bcs == System.Windows.Forms.BatteryChargeStatus.NoSystemBattery || bcs == System.Windows.Forms.BatteryChargeStatus.Unknown)
-            {
-                return new BatteryStatus(false, false, 0);
-
-            }
-            else if (bcs == System.Windows.Forms.BatteryChargeStatus.Charging)
-            {
-                return new BatteryStatus(true, true, System.Windows.Forms.SystemInformation.PowerStatus.BatteryLifePercent);
-            }
-            else
-            {
-                return new BatteryStatus(true, false, System.Windows.Forms.SystemInformation.PowerStatus.BatteryLifePercent);
-            }
-        }
-        private void SetVolumeStatus(SetVolume sv)
+        private void SetVolumeStatus(VolumeStatus sv)
         {
             using (NAudio.CoreAudioApi.MMDeviceEnumerator en = new NAudio.CoreAudioApi.MMDeviceEnumerator())
             {
@@ -42,6 +25,17 @@ namespace VMware.Horizon.VirtualChannel.Client
                 var device = en.GetDefaultAudioEndpoint(NAudio.CoreAudioApi.DataFlow.Render, NAudio.CoreAudioApi.Role.Console);
                 device.AudioEndpointVolume.Mute = sv.Muted;
                 device.AudioEndpointVolume.MasterVolumeLevelScalar = sv.VolumeLevel;
+            }
+        }
+
+        private VolumeStatus GetVolume()
+        {
+            using (NAudio.CoreAudioApi.MMDeviceEnumerator en = new NAudio.CoreAudioApi.MMDeviceEnumerator())
+            {
+
+                var device = en.GetDefaultAudioEndpoint(NAudio.CoreAudioApi.DataFlow.Render, NAudio.CoreAudioApi.Role.Console);
+                return new VolumeStatus(device.AudioEndpointVolume.Mute, device.AudioEndpointVolume.MasterVolumeLevelScalar);
+
             }
         }
 
@@ -102,7 +96,7 @@ namespace VMware.Horizon.VirtualChannel.Client
             ChannelEvents = new VMwareHorizonVirtualChannelEvents(this);
             object APIObject = null;
             VMwareHorizonClientChannelDefinition[] Channels = new VMwareHorizonClientChannelDefinition[1];
-            Channels[0] = new VMwareHorizonClientChannelDefinition("ExampleChannel", 0);
+            Channels[0] = new VMwareHorizonClientChannelDefinition("VVCAM", 0);
             vmhc.RegisterVirtualChannelConsumer2(Channels, ChannelEvents, out APIObject);
             ChannelEvents.HorizonClientVirtualChannel = (IVMwareHorizonClientVChan)APIObject;
             GC.SuppressFinalize(ChannelEvents);
@@ -110,7 +104,7 @@ namespace VMware.Horizon.VirtualChannel.Client
             return true;
         }
 
-       
+
         public void Start()
         {
 
@@ -129,11 +123,11 @@ namespace VMware.Horizon.VirtualChannel.Client
                 GC.ReRegisterForFinalize(device);
                 GC.ReRegisterForFinalize(vmhc);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.ThreadMessage?.Invoke(1, string.Format("The Horizon Monitor thread reported a fatal Exception: {0}", ex.ToString()));
                 this.ThreadException?.Invoke(ex);
-            }        
+            }
         }
 
         public void Close()
@@ -182,7 +176,7 @@ namespace VMware.Horizon.VirtualChannel.Client
                     }
                     catch (Exception ex)
                     {
-                        CallbackObject.ThreadMessage?.Invoke(3, string.Format( "VirtualChannelOpen() failed: {0}", ex.ToString()));
+                        CallbackObject.ThreadMessage?.Invoke(3, string.Format("VirtualChannelOpen() failed: {0}", ex.ToString()));
                         mChannelHandle = 0;
                     }
                 }
@@ -210,39 +204,39 @@ namespace VMware.Horizon.VirtualChannel.Client
 
                 if (isLast)
                 {
-                    //if (totalLength != mPingTestMsg.Length)
-                    //{
-                    //    SharedObjects.hvm.ThreadMessage?.Invoke(3, "Received {mPingTestMsg.Length} bytes but expected {totalLength} bytes!");
-                    //}
+                    if (totalLength != mPingTestMsg.Length)
+                    {
+                        CallbackObject.ThreadMessage?.Invoke(3, "Received {mPingTestMsg.Length} bytes but expected {totalLength} bytes!");
+                    }
 
-                    //string message = RDPVCBridgeInterop.BinaryConverters.BinaryToString(mPingTestMsg);
-                    //ChannelObjects.ChannelCommand cc = Newtonsoft.Json.JsonConvert.DeserializeObject<ChannelObjects.ChannelCommand>(message);
-                    //SharedObjects.hvm.ThreadMessage?.Invoke(3, "Received: " + cc.CommandType.ToString() + " = " + RDPVCBridgeInterop.BinaryConverters.BinaryToString(mPingTestMsg));
+                    string message = RDPVCBridgeInterop.BinaryConverters.BinaryToString(mPingTestMsg);
+                    ChannelCommand cc = Newtonsoft.Json.JsonConvert.DeserializeObject<ChannelCommand>(message);
+                    CallbackObject.ThreadMessage?.Invoke(3, "Received: " + cc.CommandType.ToString() + " = " + RDPVCBridgeInterop.BinaryConverters.BinaryToString(mPingTestMsg));
 
-                    //try
-                    //{
-                    //    switch (cc.CommandType)
-                    //    {
-                    //        case ChannelObjects.CommandType.SetVolume:
-                    //            JObject jo = (JObject)cc.CommandParameters;
-                    //            ChannelObjects.SetVolume sv = jo.ToObject<ChannelObjects.SetVolume>();
-                    //            SharedObjects.hvm.SetVolumeStatus(sv);
-                    //            g_vchanApi.VirtualChannelWrite(serverId, sessionToken, channelHandle, RDPVCBridgeInterop.BinaryConverters.StringToBinary(Newtonsoft.Json.JsonConvert.SerializeObject(new ChannelObjects.ChannelResponse())));
-                    //            break;
-                    //        case ChannelObjects.CommandType.Probe:
-                    //            g_vchanApi.VirtualChannelWrite(serverId, sessionToken, channelHandle, RDPVCBridgeInterop.BinaryConverters.StringToBinary(Newtonsoft.Json.JsonConvert.SerializeObject(new ChannelObjects.ChannelResponse())));
-                    //            break;
-                    //        case ChannelObjects.CommandType.GetBattery:
-                    //            g_vchanApi.VirtualChannelWrite(serverId, sessionToken, channelHandle, RDPVCBridgeInterop.BinaryConverters.StringToBinary(Newtonsoft.Json.JsonConvert.SerializeObject(SharedObjects.hvm.GetBatteryStatus())));
-                    //            break;
-                    //        default:
-                    //            break;
-                    //    }
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    CallbackObject.ThreadMessage?.Invoke(3, string.Format("VirtualChannelWrite failed: {0}", ex.ToString()));
-                    //}
+                    try
+                    {
+                        switch (cc.CommandType)
+                        {
+                            case CommandType.SetVolume:
+                                JObject jo = (JObject)cc.CommandParameters;
+                                VolumeStatus sv = jo.ToObject<VolumeStatus>();
+                                CallbackObject.SetVolumeStatus(sv);
+                                HorizonClientVirtualChannel.VirtualChannelWrite(serverId, sessionToken, channelHandle, RDPVCBridgeInterop.BinaryConverters.StringToBinary(Newtonsoft.Json.JsonConvert.SerializeObject(new ChannelResponse())));
+                                break;
+                            case CommandType.Probe:
+                                HorizonClientVirtualChannel.VirtualChannelWrite(serverId, sessionToken, channelHandle, RDPVCBridgeInterop.BinaryConverters.StringToBinary(Newtonsoft.Json.JsonConvert.SerializeObject(new ChannelResponse())));
+                                break;
+                            case CommandType.GetVolume:
+                                HorizonClientVirtualChannel.VirtualChannelWrite(serverId, sessionToken, channelHandle, RDPVCBridgeInterop.BinaryConverters.StringToBinary(Newtonsoft.Json.JsonConvert.SerializeObject(CallbackObject.GetVolume())));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        CallbackObject.ThreadMessage?.Invoke(3, string.Format("VirtualChannelWrite failed: {0}", ex.ToString()));
+                    }
                 }
             }
 
@@ -427,7 +421,7 @@ namespace VMware.Horizon.VirtualChannel.Client
                 DispatchMessage(3, string.Format("Received Launch Items, Server ID: {0}, Item Count: {1}", serverId,
                             launchItems.Length));
                 var Items = Helpers.GetLaunchItems(launchItems);
-                foreach(var item in Items)
+                foreach (var item in Items)
                 {
                     DispatchMessage(3, String.Format("Launch Item: Server ID: {0}, Name: {1}, Type: {2}, ID: {3}", serverId, item.name, item.type.ToString(), item.id));
 
@@ -543,11 +537,11 @@ namespace VMware.Horizon.VirtualChannel.Client
             {
                 DispatchMessage(3, string.Format("Received Launch Items2, Server ID: {0}, Item Count: {1}", serverId, launchItems.Length));
                 var Items = Helpers.GetLaunchItems2(launchItems);
-                foreach(var item in Items)
+                foreach (var item in Items)
                 {
-                    DispatchMessage(3, String.Format("Launch Item: Server ID: {0}, Name: {1}, Type: {2}, ID: {3}, Remotable: {4}",serverId, item.name, item.type.ToString(), item.id, item.hasRemotableAssets));
+                    DispatchMessage(3, String.Format("Launch Item: Server ID: {0}, Name: {1}, Type: {2}, ID: {3}, Remotable: {4}", serverId, item.name, item.type.ToString(), item.id, item.hasRemotableAssets));
                 }
             }
-        }     
+        }
     }
 }

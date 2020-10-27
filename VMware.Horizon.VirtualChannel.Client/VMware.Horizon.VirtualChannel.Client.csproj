@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +39,9 @@
     <ApplicationIcon>tubes.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
+    </Reference>
     <Reference Include="NAudio, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
     </Reference>
@@ -110,20 +116,6 @@
     <Content Include="tubes.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libraries\VMware.Horizon.RDPVCBridge\VMware.Horizon.VirtualChannel.RDPVCBridgeInterop.csproj">
-      <Project>{0c9e1536-a4b1-4b0e-9a2b-eeac7238fc8a}</Project>
-      <Name>VMware.Horizon.VirtualChannel.RDPVCBridgeInterop</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VMware.Horizon.NamedPipe.PipeMessages\VMware.Horizon.VirtualChannel.PipeMessages.csproj">
-      <Project>{80ad77a0-b6d9-4c1b-81dd-8d7757cfd572}</Project>
-      <Name>VMware.Horizon.VirtualChannel.PipeMessages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VMware.Horizon.NamedPipe.RegistryHelpers\VMware.Horizon.VirtualChannel.RegistryHelpers.csproj">
-      <Project>{2d6dafc7-fef4-40db-ba6e-da25df71b53c}</Project>
-      <Name>VMware.Horizon.VirtualChannel.RegistryHelpers</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="VMwareHorizonClientController">
       <Guid>{CF62A3FC-8FE9-4075-902E-811BAED5D1F7}</Guid>
       <VersionMajor>0</VersionMajor>
@@ -134,5 +126,30 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Libraries\VMware.Horizon.RDPVCBridge\VMware.Horizon.VirtualChannel.RDPVCBridgeInterop.csproj">
+      <Project>{0c9e1536-a4b1-4b0e-9a2b-eeac7238fc8a}</Project>
+      <Name>VMware.Horizon.VirtualChannel.RDPVCBridgeInterop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\VMware.Horizon.VirtualChannel.PipeMessages\VMware.Horizon.VirtualChannel.PipeMessages.csproj">
+      <Project>{80ad77a0-b6d9-4c1b-81dd-8d7757cfd572}</Project>
+      <Name>VMware.Horizon.VirtualChannel.PipeMessages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\VMware.Horizon.VirtualChannel.RegistryHelpers\VMware.Horizon.VirtualChannel.RegistryHelpers.csproj">
+      <Project>{2d6dafc7-fef4-40db-ba6e-da25df71b53c}</Project>
+      <Name>VMware.Horizon.VirtualChannel.RegistryHelpers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.6.0.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.0\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.6.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.0.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy /y $(TargetDir)\* \\nas\lab\horizonvirtualchannels\client\</PostBuildEvent>
+  </PropertyGroup>
 </Project>
