@@ -77,7 +77,7 @@
             this.Controls.Add(this.lbDebug);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDetails";
-            this.Text = "Pipe Client Details:";
+            this.Text = "Virtual Channel Client Details:";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDetails_FormClosing);
             this.Load += new System.EventHandler(this.frmDetails_Load);
             this.Shown += new System.EventHandler(this.frmDetails_Shown);

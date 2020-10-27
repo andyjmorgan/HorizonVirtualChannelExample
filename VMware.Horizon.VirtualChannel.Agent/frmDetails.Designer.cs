@@ -135,7 +135,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDetails";
-            this.Text = "Pipe Agent Details:";
+            this.Text = "Virtual Channel Agent Details:";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDetails_FormClosing);
             this.Load += new System.EventHandler(this.frmDetails_Load);
             this.Shown += new System.EventHandler(this.frmDetails_Shown);
